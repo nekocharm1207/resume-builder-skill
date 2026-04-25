@@ -1,0 +1,59 @@
+{
+  "name": "郭海军",
+  "phone": "18896920153",
+  "email": "18896920153@163.com",
+  "school": "南京航空航天大学金城学院",
+  "major": "软件技术",
+  "degree": "本科",
+  "graduation": "2026年6月",
+  "location": "苏州",
+  "skills": {
+    "languages": ["C/C++", "Java", "Python", "JavaScript", "TypeScript"],
+    "frontend": ["Vue3", "HTML5", "CSS3"],
+    "backend": ["Spring Boot", "Flask", "Drogon"],
+    "database": ["MySQL"],
+    "tools": ["Git", "Docker", "Linux", "VS Code", "Postman"],
+    "ai_algo": ["YOLOv11s", "SORT", "CNN+LSTM+Attention", "透视变换"]
+  },
+  "projects": [
+    {
+      "name": "智慧交通车辆违规行为监控系统",
+      "type": "毕业设计",
+      "stack": "Vue3 + TypeScript + Spring Boot + Flask + YOLOv11s + MediaMTX + MySQL",
+      "bullets": [
+        "独立负责Vue3前端监控驾驶舱开发，实现多路视频实时播放与标注叠加",
+        "负责Spring Boot后端API开发，包含用户管理、摄像头管理、违规记录等模块",
+        "负责Flask算法服务端开发，实现YOLOv11s目标检测与SORT多目标跟踪"
+      ]
+    },
+    {
+      "name": "校园考勤系统",
+      "type": "课程设计",
+      "stack": "C++ / Drogon / Vue3 / MySQL",
+      "bullets": [
+        "基于Drogon框架搭建完整C++服务架构，实现用户登录、考勤打卡、请假审批等接口",
+        "使用Drogon ORM组件与MySQL进行数据交互，配合Vue3完成前后端联调"
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "company": "上海菁昉信息科技有限公司",
+      "position": "数据标注",
+      "period": "2023.10 - 2024.04",
+      "bullets": [
+        "根据项目需求对图像、视频、文本等数据进行爬取与标注",
+        "参与图像识别、目标检测等AI数据处理任务，配合算法团队完成数据质量审核"
+      ]
+    }
+  ],
+  "self_eval": [
+    "具备全栈开发能力，Vue3 + Spring Boot / C++(Drogon) 能够独立完成中小型系统",
+    "学习能力强，能够快速掌握新技术并应用于实际问题"
+  ],
+  "honors": ["蓝桥杯省二等奖"],
+  "en_levels": [
+    {"name": "CET-4", "score": 530},
+    {"name": "CET-6", "score": 450}
+  ]
+}

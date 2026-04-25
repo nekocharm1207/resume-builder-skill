@@ -1,0 +1,162 @@
+Metadata-Version: 2.4
+Name: jd-resume-builder
+Version: 1.0.0
+Summary: AI-driven resume generator tailored to job descriptions
+Home-page: https://github.com/your-username/jd-resume-builder
+Author: Your Name
+Author-email: your.email@example.com
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: jinja2>=3.1.0
+Requires-Dist: pypdf>=4.0.0
+Requires-Dist: pyyaml>=6.0
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# JD Resume Builder
+
+AI-driven resume generator that tailors your resume to a specific job description (JD). Parses JD keywords, matches them against your experience, generates STAR-formatted bullets, and exports a single-page A4 PDF.
+
+## Features
+
+- **JD Parsing**: Extracts skills, requirements, and responsibilities from JD text
+- **Keyword Matching**: Synonym expansion + priority scoring for accurate alignment
+- **STAR Format**: Every bullet follows Situation → Task → Action → Result
+- **Bold Highlights**: Key technologies and quantified achievements emphasized
+- **Robust 1-Page Control**: 15-level auto-shrink strategy (typography → content → extreme)
+  - Phase 1: Shrink font-size (10.5pt → 8.5pt), line-height, margins
+  - Phase 2: Prune low-priority content (self-eval → experience → project bullets)
+  - Phase 3: Extreme micro-shrink
+- **PDF via Edge Headless**: No external dependencies, uses system Edge browser
+- **Cache-Resistant**: Time-stamped URLs + disabled browser cache
+- **File-Lock Safe**: Time-stamped filenames prevent overwrite conflicts
+
+## Installation
+
+```bash
+git clone https://github.com/your-username/jd-resume-builder.git
+cd jd-resume-builder
+pip install -e .
+```
+
+Requires:
+- Python 3.9+
+- Microsoft Edge (Windows) or Chromium (Linux/Mac)
+
+## Quick Start
+
+```bash
+# Prepare your resume as JSON (see examples/sample_resume.json)
+# Prepare JD as plain text (see examples/sample_jd.txt)
+
+jd-resume-builder \
+  --resume examples/sample_resume.json \
+  --jd examples/sample_jd.txt \
+  --output ./output
+```
+
+## Resume JSON Format
+
+```json
+{
+  "name": "Your Name",
+  "phone": "13800000000",
+  "email": "you@example.com",
+  "school": "Your University",
+  "major": "Computer Science",
+  "degree": "本科",
+  "graduation": "2026年6月",
+  "location": "苏州",
+  "skills": {
+    "languages": ["C/C++", "Java", "Python"],
+    "frontend": ["Vue3", "HTML/CSS"],
+    "backend": ["Spring Boot", "Flask"],
+    "database": ["MySQL"],
+    "tools": ["Git", "Docker", "Linux"],
+    "ai_algo": ["YOLOv11s"]
+  },
+  "projects": [
+    {
+      "name": "Project Name",
+      "type": "毕业设计",
+      "stack": "Vue3 + Spring Boot + MySQL",
+      "bullets": ["original bullet 1", "original bullet 2"]
+    }
+  ],
+  "experience": [
+    {
+      "company": "Company Name",
+      "position": "Intern",
+      "period": "2023.10 - 2024.04",
+      "bullets": ["what you did"]
+    }
+  ],
+  "self_eval": ["your strengths"],
+  "honors": ["蓝桥杯省二等奖"],
+  "en_levels": [{"name": "CET-4", "score": 530}]
+}
+```
+
+## CLI Options
+
+```
+jd-resume-builder --help
+
+  --resume PATH       Path to resume JSON file (required)
+  --jd PATH           Path to JD text file (required)
+  --output, -o DIR    Output directory (default: ./output)
+  --config, -c PATH   Config YAML file
+  --max-pages N       Max pages (default: 1)
+  --max-attempts N    Max shrink attempts (default: 15)
+  --html-only         Generate HTML only, skip PDF
+  --verbose, -v       Verbose logging
+```
+
+## Page Control Strategy
+
+When content exceeds `--max-pages`, the controller automatically degrades:
+
+| Phase | Strategy | Details |
+|-------|----------|---------|
+| 1 | Typography | font-size 10.5pt→10.0→9.5→9.0→8.5, line-height 1.65→1.45 |
+| 2 | Content Prune | self-eval last → self-eval all → exp last → exp all → proj2 last → proj2 all → proj1 last |
+| 3 | Extreme | font-size continues down to 7.5pt |
+
+Each attempt generates a new PDF and checks page count. Full history is logged.
+
+## Architecture
+
+```
+resume_builder/
+  cli.py            # argparse entry point
+  config.py         # YAML/env configuration
+  logger.py         # structured logging
+  models.py         # dataclasses (JDProfile, MatchReport, PageControlResult)
+  jd_parser.py      # JD text → structured data
+  matcher.py        # keyword matching with synonyms
+  generator.py      # STAR bullet generation
+  renderer.py       # Jinja2 HTML template with dynamic styles
+  page_controller.py # robust 1-page controller (15-phase shrink)
+  pdf_builder.py    # Edge headless PDF generation
+  synonyms.py       # skill synonym dictionary
+```
+
+## License
+
+MIT
